@@ -5,7 +5,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#101827">
-<title>AI ECOSYSTEM V2.0</title>
+<title>AI ECOSYSTEM V2.1</title>
+
 <style>
 :root {
   color-scheme: dark;
@@ -29,7 +30,10 @@ header {
   background:#111c2d;
   border-bottom:1px solid var(--line);
 }
-.wrap,main { max-width:900px; margin:auto; }
+.wrap,main {
+  max-width:900px;
+  margin:auto;
+}
 h1 { font-size:24px; margin:0 0 6px; }
 h2 { font-size:19px; margin:0 0 14px; }
 p { color:var(--muted); line-height:1.5; }
@@ -50,7 +54,7 @@ button {
 }
 button.active,button.primary {
   background:#24558d;
-  border-color:#3988dc;
+  border-color:var(--accent);
 }
 button.danger {
   background:#492432;
@@ -74,6 +78,11 @@ input {
   padding:12px;
   font:inherit;
 }
+input[type="checkbox"] {
+  flex:0;
+  width:20px;
+  height:20px;
+}
 ul { list-style:none; padding:0; }
 li {
   display:flex;
@@ -82,11 +91,31 @@ li {
   padding:11px 0;
   border-bottom:1px solid var(--line);
 }
-.item { flex:1; overflow-wrap:anywhere; }
-.done { text-decoration:line-through; color:var(--muted); }
-.small { font-size:13px; color:var(--muted); }
-.metric { font-size:30px; color:var(--green); font-weight:bold; }
+.item {
+  flex:1;
+  overflow-wrap:anywhere;
+}
+.done {
+  text-decoration:line-through;
+  color:var(--muted);
+}
+.small {
+  font-size:13px;
+  color:var(--muted);
+}
+.metric {
+  font-size:30px;
+  color:var(--green);
+  font-weight:bold;
+}
 .hidden { display:none!important; }
+.result {
+  overflow-wrap:anywhere;
+  padding:12px;
+  margin-top:12px;
+  background:#0e1828;
+  border-radius:9px;
+}
 footer {
   text-align:center;
   padding:20px;
@@ -95,94 +124,177 @@ footer {
 }
 </style>
 </head>
+
 <body>
 
 <header>
 <div class="wrap">
-<h1>AI ECOSYSTEM V2.0</h1>
-<p>Hệ thống quản lý tác vụ, bộ nhớ và mô phỏng tiến hóa thuật toán.</p>
+<h1>AI ECOSYSTEM V2.1</h1>
+<p>Hệ thống quản lý tác vụ, bộ nhớ, mô phỏng tiến hóa và kiểm thử thuật toán.</p>
+
 <nav>
 <button class="tab active" data-page="tasks">Tasks</button>
 <button class="tab" data-page="memory">Memory</button>
 <button class="tab" data-page="lab">Evolution Lab</button>
+<button class="tab" data-page="algorithm">Algorithm Lab</button>
 </nav>
 </div>
 </header>
 
 <main>
 
+<!-- TASK MANAGER -->
 <section id="tasks" class="page">
 <div class="panel">
 <h2>Task Manager</h2>
+
 <div class="row">
 <input id="taskInput" placeholder="Nhập công việc mới...">
 <button class="primary" id="addTask">Thêm</button>
 </div>
+
 <ul id="taskList"></ul>
 <p id="taskCount" class="small"></p>
 </div>
 </section>
 
+<!-- MEMORY MANAGER -->
 <section id="memory" class="page hidden">
 <div class="panel">
 <h2>Memory Manager</h2>
+
 <div class="row">
 <input id="memoryInput" placeholder="Nhập ghi chú...">
 <button class="primary" id="addMemory">Lưu</button>
 </div>
+
 <ul id="memoryList"></ul>
 </div>
 </section>
 
+<!-- EVOLUTION LAB -->
 <section id="lab" class="page hidden">
 <div class="panel">
 <h2>Evolution Lab</h2>
-<p>Mô phỏng tối ưu hóa một giá trị mục tiêu bằng đột biến ngẫu nhiên. Đây là mô phỏng minh họa, chưa phải AI tự học thực sự.</p>
+
+<p>
+Mô phỏng chọn lọc và đột biến trên một giá trị mục tiêu.
+Đây là mô phỏng minh họa, không phải AI tự học thực sự.
+</p>
+
 <button class="primary" id="runLab">Chạy 30 thế hệ</button>
 <button id="resetLab">Đặt lại</button>
+
 <p>Thế hệ: <span id="generation">0</span></p>
 <div class="metric" id="fitness">0.00</div>
 <p id="labStatus" class="small">Sẵn sàng.</p>
 </div>
 </section>
 
+<!-- ALGORITHM LAB -->
+<section id="algorithm" class="page hidden">
+<div class="panel">
+<h2>Algorithm Lab V2.1</h2>
+
+<p>
+So sánh hai thuật toán sắp xếp trên cùng một bộ dữ liệu.
+Thời gian được đo trực tiếp trên trình duyệt.
+</p>
+
+<div class="row">
+<input
+  id="arraySize"
+  type="number"
+  min="10"
+  max="500"
+  value="150"
+  placeholder="Số phần tử"
+>
+<button class="primary" id="runBenchmark">
+Chạy kiểm thử
+</button>
+</div>
+
+<p class="small">
+Nhập số phần tử từ 10 đến 500.
+Kết quả phụ thuộc vào thiết bị và trình duyệt.
+</p>
+
+<div id="benchmarkResults" class="result">
+Chưa có kết quả kiểm thử.
+</div>
+
+<h2 style="margin-top:22px">Lịch sử kiểm thử</h2>
+<ul id="algorithmHistory"></ul>
+</div>
+</section>
+
+<!-- DATA MANAGEMENT -->
 <section class="panel">
 <h2>Quản lý dữ liệu</h2>
-<p class="small">Dữ liệu được lưu trên trình duyệt của thiết bị này.</p>
+
+<p class="small">
+Dữ liệu được lưu trên trình duyệt của thiết bị này.
+Hãy xuất JSON để sao lưu trước khi xóa dữ liệu trình duyệt.
+</p>
+
 <div class="actions">
 <button id="exportData">Xuất JSON</button>
 <button id="importButton">Nhập JSON</button>
 <button class="danger" id="clearData">Xóa dữ liệu</button>
-<input id="importFile" type="file" accept=".json,application/json" class="hidden">
+<input
+  id="importFile"
+  type="file"
+  accept=".json,application/json"
+  class="hidden"
+>
 </div>
+
 <p id="dataStatus" class="small"></p>
 </section>
 
 </main>
 
-<footer>AI ECOSYSTEM V2.0 · Free Web App</footer>
+<footer>
+AI ECOSYSTEM V2.1 · Free Web App
+</footer>
 
 <script>
 "use strict";
 
+/* STORAGE */
+
 const KEY = "ai_ecosystem_v2";
+
 const defaults = {
   tasks: [],
   memories: [],
   generation: 0,
-  fitness: 0
+  fitness: 0,
+  algorithmRuns: []
 };
 
 let state;
 
 try {
-  state = Object.assign(
-    {},
-    defaults,
-    JSON.parse(localStorage.getItem(KEY) || "{}")
+  const saved = JSON.parse(
+    localStorage.getItem(KEY) || "{}"
   );
+
+  state = {
+    ...defaults,
+    ...saved
+  };
+
+  if (!Array.isArray(state.tasks)) state.tasks = [];
+  if (!Array.isArray(state.memories)) state.memories = [];
+  if (!Array.isArray(state.algorithmRuns)) {
+    state.algorithmRuns = [];
+  }
 } catch {
-  state = {...defaults};
+  state = {
+    ...defaults
+  };
 }
 
 const $ = id => document.getElementById(id);
@@ -190,9 +302,11 @@ const $ = id => document.getElementById(id);
 function save() {
   try {
     localStorage.setItem(KEY, JSON.stringify(state));
-    $("dataStatus").textContent = "Đã lưu dữ liệu trên thiết bị.";
+    $("dataStatus").textContent =
+      "Đã lưu dữ liệu trên thiết bị.";
   } catch {
-    $("dataStatus").textContent = "Không thể lưu dữ liệu.";
+    $("dataStatus").textContent =
+      "Không thể lưu dữ liệu. Hãy kiểm tra dung lượng trình duyệt.";
   }
 }
 
@@ -202,12 +316,15 @@ function element(tag, text) {
   return el;
 }
 
-/* Navigation */
+/* NAVIGATION */
 
 document.querySelectorAll(".tab").forEach(button => {
   button.addEventListener("click", () => {
     document.querySelectorAll(".tab").forEach(tab => {
-      tab.classList.toggle("active", tab === button);
+      tab.classList.toggle(
+        "active",
+        tab === button
+      );
     });
 
     document.querySelectorAll(".page").forEach(page => {
@@ -219,7 +336,7 @@ document.querySelectorAll(".tab").forEach(button => {
   });
 });
 
-/* Task Manager */
+/* TASK MANAGER */
 
 function renderTasks() {
   const list = $("taskList");
@@ -227,6 +344,7 @@ function renderTasks() {
 
   state.tasks.forEach((task, index) => {
     const li = element("li");
+
     const checkbox = element("input");
     checkbox.type = "checkbox";
     checkbox.checked = !!task.done;
@@ -238,7 +356,8 @@ function renderTasks() {
     });
 
     const label = element("span", task.text);
-    label.className = "item" + (task.done ? " done" : "");
+    label.className =
+      "item" + (task.done ? " done" : "");
 
     const remove = element("button", "Xóa");
     remove.className = "danger";
@@ -253,7 +372,9 @@ function renderTasks() {
     list.append(li);
   });
 
-  const remaining = state.tasks.filter(task => !task.done).length;
+  const remaining = state.tasks.filter(
+    task => !task.done
+  ).length;
 
   $("taskCount").textContent =
     remaining + " tác vụ chưa hoàn thành / " +
@@ -264,7 +385,11 @@ $("addTask").addEventListener("click", () => {
   const value = $("taskInput").value.trim();
   if (!value) return;
 
-  state.tasks.push({text:value, done:false});
+  state.tasks.push({
+    text: value,
+    done: false
+  });
+
   $("taskInput").value = "";
 
   save();
@@ -272,10 +397,12 @@ $("addTask").addEventListener("click", () => {
 });
 
 $("taskInput").addEventListener("keydown", event => {
-  if (event.key === "Enter") $("addTask").click();
+  if (event.key === "Enter") {
+    $("addTask").click();
+  }
 });
 
-/* Memory Manager */
+/* MEMORY MANAGER */
 
 function renderMemories() {
   const list = $("memoryList");
@@ -283,6 +410,7 @@ function renderMemories() {
 
   state.memories.forEach((memory, index) => {
     const li = element("li");
+
     const label = element("span", memory);
     label.className = "item";
 
@@ -316,21 +444,26 @@ $("addMemory").addEventListener("click", () => {
 });
 
 $("memoryInput").addEventListener("keydown", event => {
-  if (event.key === "Enter") $("addMemory").click();
+  if (event.key === "Enter") {
+    $("addMemory").click();
+  }
 });
 
-/* Evolution Lab */
+/* EVOLUTION LAB */
 
 function renderLab() {
   $("generation").textContent = state.generation;
-  $("fitness").textContent = Number(state.fitness).toFixed(2);
+  $("fitness").textContent =
+    Number(state.fitness).toFixed(2);
 }
 
 $("runLab").addEventListener("click", () => {
-  let score = Number(state.fitness) || Math.random() * 10;
+  let score = Number(state.fitness) ||
+    Math.random() * 10;
 
   for (let i = 0; i < 30; i++) {
-    const candidate = score + (Math.random() - 0.35) * 2;
+    const candidate =
+      score + (Math.random() - 0.35) * 2;
 
     if (candidate > score) {
       score = candidate;
@@ -355,10 +488,171 @@ $("resetLab").addEventListener("click", () => {
   save();
   renderLab();
 
-  $("labStatus").textContent = "Đã đặt lại mô phỏng.";
+  $("labStatus").textContent =
+    "Đã đặt lại mô phỏng.";
 });
 
-/* Export JSON */
+/* ALGORITHM LAB */
+
+/* Insertion Sort implementation */
+
+function insertionSort(values) {
+  const a = values.slice();
+
+  for (let i = 1; i < a.length; i++) {
+    const current = a[i];
+    let j = i - 1;
+
+    while (j >= 0 && a[j] > current) {
+      a[j + 1] = a[j];
+      j--;
+    }
+
+    a[j + 1] = current;
+  }
+
+  return a;
+}
+
+/* Generate reproducible test data */
+
+function generateTestData(size) {
+  let seed = 20261114;
+
+  return Array.from({length: size}, () => {
+    seed = (
+      seed * 1664525 + 1013904223
+    ) >>> 0;
+
+    return seed % 100000;
+  });
+}
+
+/* Compare two arrays */
+
+function arraysEqual(a, b) {
+  if (a.length !== b.length) return false;
+
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) return false;
+  }
+
+  return true;
+}
+
+/* Display benchmark history */
+
+function renderAlgorithmHistory() {
+  const list = $("algorithmHistory");
+  list.replaceChildren();
+
+  if (!state.algorithmRuns.length) {
+    list.append(
+      element("li", "Chưa có dữ liệu kiểm thử.")
+    );
+    return;
+  }
+
+  state.algorithmRuns.forEach(run => {
+    const li = element("li");
+
+    const summary = element(
+      "span",
+      run.size + " phần tử | Insertion Sort: " +
+      Number(run.insertionMs).toFixed(3) +
+      " ms | Native Sort: " +
+      Number(run.nativeMs).toFixed(3) +
+      " ms | " +
+      (run.valid ? "ĐẠT" : "KHÔNG ĐẠT")
+    );
+
+    summary.className = "item";
+    li.append(summary);
+    list.append(li);
+  });
+}
+
+/* Run benchmark */
+
+$("runBenchmark").addEventListener("click", () => {
+  const size = Number($("arraySize").value);
+
+  if (
+    !Number.isInteger(size) ||
+    size < 10 ||
+    size > 500
+  ) {
+    $("benchmarkResults").textContent =
+      "Nhập số phần tử hợp lệ từ 10 đến 500.";
+    return;
+  }
+
+  const input = generateTestData(size);
+
+  /* Insertion Sort */
+
+  const startA = performance.now();
+  const resultA = insertionSort(input);
+  const timeA = performance.now() - startA;
+
+  /* Native JavaScript Sort */
+
+  const startB = performance.now();
+
+  const resultB = input.slice().sort(
+    (a, b) => a - b
+  );
+
+  const timeB = performance.now() - startB;
+
+  /* Validate correctness */
+
+  const valid = arraysEqual(resultA, resultB);
+
+  const run = {
+    date: new Date().toISOString(),
+    size: size,
+    insertionMs: timeA,
+    nativeMs: timeB,
+    valid: valid
+  };
+
+  state.algorithmRuns.unshift(run);
+
+  state.algorithmRuns =
+    state.algorithmRuns.slice(0, 10);
+
+  save();
+
+  const output = $("benchmarkResults");
+  output.replaceChildren();
+
+  output.append(
+    element(
+      "p",
+      "Số phần tử: " + size
+    ),
+    element(
+      "p",
+      "Insertion Sort: " +
+      timeA.toFixed(3) + " ms"
+    ),
+    element(
+      "p",
+      "Native Sort: " +
+      timeB.toFixed(3) + " ms"
+    ),
+    element(
+      "p",
+      "Kiểm tra kết quả: " +
+      (valid ? "ĐẠT" : "KHÔNG ĐẠT")
+    )
+  );
+
+  renderAlgorithmHistory();
+});
+
+/* EXPORT JSON */
 
 $("exportData").addEventListener("click", () => {
   const blob = new Blob(
@@ -370,49 +664,65 @@ $("exportData").addEventListener("click", () => {
   const link = element("a");
 
   link.href = url;
-  link.download = "ai-ecosystem-backup.json";
-  link.click();
+  link.download = "ai-ecosystem-v2.1-backup.json";
 
-  URL.revokeObjectURL(url);
+  document.body.append(link);
+  link.click();
+  link.remove();
+
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 });
 
-/* Import JSON */
+/* IMPORT JSON */
 
 $("importButton").addEventListener("click", () => {
   $("importFile").click();
 });
 
-$("importFile").addEventListener("change", async event => {
-  const file = event.target.files[0];
-  if (!file) return;
+$("importFile").addEventListener(
+  "change",
+  async event => {
+    const file = event.target.files[0];
+    if (!file) return;
 
-  try {
-    const data = JSON.parse(await file.text());
+    try {
+      const data = JSON.parse(await file.text());
 
-    if (
-      !data ||
-      !Array.isArray(data.tasks) ||
-      !Array.isArray(data.memories)
-    ) {
-      throw new Error("Invalid data");
+      if (
+        !data ||
+        !Array.isArray(data.tasks) ||
+        !Array.isArray(data.memories)
+      ) {
+        throw new Error("Invalid data");
+      }
+
+      state = {
+        ...defaults,
+        ...data
+      };
+
+      if (!Array.isArray(state.algorithmRuns)) {
+        state.algorithmRuns = [];
+      }
+
+      save();
+      renderTasks();
+      renderMemories();
+      renderLab();
+      renderAlgorithmHistory();
+
+      $("dataStatus").textContent =
+        "Nhập dữ liệu thành công.";
+    } catch {
+      $("dataStatus").textContent =
+        "File JSON không hợp lệ.";
     }
 
-    state = {...defaults, ...data};
-
-    save();
-    renderTasks();
-    renderMemories();
-    renderLab();
-
-    $("dataStatus").textContent = "Nhập dữ liệu thành công.";
-  } catch {
-    $("dataStatus").textContent = "File JSON không hợp lệ.";
+    event.target.value = "";
   }
+);
 
-  event.target.value = "";
-});
-
-/* Clear data */
+/* CLEAR DATA */
 
 $("clearData").addEventListener("click", () => {
   const confirmed = confirm(
@@ -421,19 +731,29 @@ $("clearData").addEventListener("click", () => {
 
   if (!confirmed) return;
 
-  state = {...defaults};
+  state = {
+    ...defaults,
+    tasks: [],
+    memories: [],
+    algorithmRuns: []
+  };
 
   save();
   renderTasks();
   renderMemories();
   renderLab();
+  renderAlgorithmHistory();
+
+  $("benchmarkResults").textContent =
+    "Chưa có kết quả kiểm thử.";
 });
 
-/* Initialize */
+/* INITIALIZE */
 
 renderTasks();
 renderMemories();
 renderLab();
+renderAlgorithmHistory();
 
 </script>
 </body>
