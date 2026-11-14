@@ -3,758 +3,241 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101827">
-<title>AI ECOSYSTEM V2.1</title>
-
+<title>AI ECOSYSTEM V2.3</title>
 <style>
-:root {
-  color-scheme: dark;
-  --bg:#0b1220;
-  --panel:#151f31;
-  --line:#29364b;
-  --text:#e8eef8;
-  --muted:#9eabc0;
-  --accent:#3988dc;
-  --green:#48d6a0;
-}
-* { box-sizing:border-box; }
-body {
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font:15px system-ui,sans-serif;
-}
-header {
-  padding:22px 16px;
-  background:#111c2d;
-  border-bottom:1px solid var(--line);
-}
-.wrap,main {
-  max-width:900px;
-  margin:auto;
-}
-h1 { font-size:24px; margin:0 0 6px; }
-h2 { font-size:19px; margin:0 0 14px; }
-p { color:var(--muted); line-height:1.5; }
-nav,.row,.actions {
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-top:14px;
-}
-button {
-  border:1px solid var(--line);
-  border-radius:9px;
-  background:#1b2940;
-  color:var(--text);
-  padding:11px 14px;
-  font:inherit;
-  cursor:pointer;
-}
-button.active,button.primary {
-  background:#24558d;
-  border-color:var(--accent);
-}
-button.danger {
-  background:#492432;
-  border-color:#71384b;
-}
-main { padding:18px 14px; }
-.panel {
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:13px;
-  padding:17px;
-  margin-bottom:15px;
-}
-input {
-  min-width:0;
-  flex:1;
-  background:#0e1828;
-  color:white;
-  border:1px solid var(--line);
-  border-radius:9px;
-  padding:12px;
-  font:inherit;
-}
-input[type="checkbox"] {
-  flex:0;
-  width:20px;
-  height:20px;
-}
-ul { list-style:none; padding:0; }
-li {
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:11px 0;
-  border-bottom:1px solid var(--line);
-}
-.item {
-  flex:1;
-  overflow-wrap:anywhere;
-}
-.done {
-  text-decoration:line-through;
-  color:var(--muted);
-}
-.small {
-  font-size:13px;
-  color:var(--muted);
-}
-.metric {
-  font-size:30px;
-  color:var(--green);
-  font-weight:bold;
-}
-.hidden { display:none!important; }
-.result {
-  overflow-wrap:anywhere;
-  padding:12px;
-  margin-top:12px;
-  background:#0e1828;
-  border-radius:9px;
-}
-footer {
-  text-align:center;
-  padding:20px;
-  color:var(--muted);
-  font-size:12px;
-}
+*{box-sizing:border-box}
+body{margin:0;background:#0b1220;color:#e5edf8;font:15px system-ui}
+header{padding:20px;background:#111c30;border-bottom:1px solid #26344b}
+h1{font-size:22px;margin:0;color:#70c7ff}
+small{color:#93a4bb}
+main{max-width:1000px;margin:auto;padding:14px}
+nav{display:flex;gap:7px;overflow:auto;padding:8px 0 14px}
+button{background:#1b2a42;color:#e5edf8;border:1px solid #344965;border-radius:9px;padding:10px 13px;cursor:pointer}
+button.active,button.primary{background:#0879bb;border-color:#0879bb}
+button.danger{background:#702b35}
+input,textarea,select{width:100%;background:#101b2d;color:white;border:1px solid #344965;border-radius:8px;padding:10px;margin:5px 0}
+.card{background:#111c30;border:1px solid #26364e;border-radius:13px;padding:15px;margin:10px 0}
+h2{font-size:19px;margin-top:0}
+h3{font-size:15px;color:#8bd4ff}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row>*{flex:1;min-width:120px}
+.stat{background:#17253b;padding:12px;border-radius:10px;flex:1;min-width:100px}
+.stat strong{font-size:22px;color:#70c7ff;display:block}
+.item{padding:10px;border-bottom:1px solid #26364e;display:flex;gap:8px;align-items:center;justify-content:space-between}
+.item span{overflow-wrap:anywhere}
+.hidden{display:none!important}
+canvas{width:100%;height:220px;background:#0b1425;border-radius:10px}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;color:#a6d9ff}
+footer{text-align:center;color:#71839b;padding:25px}
 </style>
 </head>
-
 <body>
-
 <header>
-<div class="wrap">
-<h1>AI ECOSYSTEM V2.1</h1>
-<p>Hệ thống quản lý tác vụ, bộ nhớ, mô phỏng tiến hóa và kiểm thử thuật toán.</p>
-
-<nav>
-<button class="tab active" data-page="tasks">Tasks</button>
-<button class="tab" data-page="memory">Memory</button>
-<button class="tab" data-page="lab">Evolution Lab</button>
-<button class="tab" data-page="algorithm">Algorithm Lab</button>
-</nav>
-</div>
+<h1>AI ECOSYSTEM V2.3</h1>
+<small>Evolution • Algorithms • Research • Validation</small>
 </header>
-
 <main>
-
-<!-- TASK MANAGER -->
-<section id="tasks" class="page">
-<div class="panel">
-<h2>Task Manager</h2>
-
-<div class="row">
-<input id="taskInput" placeholder="Nhập công việc mới...">
-<button class="primary" id="addTask">Thêm</button>
-</div>
-
-<ul id="taskList"></ul>
-<p id="taskCount" class="small"></p>
-</div>
-</section>
-
-<!-- MEMORY MANAGER -->
-<section id="memory" class="page hidden">
-<div class="panel">
-<h2>Memory Manager</h2>
-
-<div class="row">
-<input id="memoryInput" placeholder="Nhập ghi chú...">
-<button class="primary" id="addMemory">Lưu</button>
-</div>
-
-<ul id="memoryList"></ul>
-</div>
-</section>
-
-<!-- EVOLUTION LAB -->
-<section id="lab" class="page hidden">
-<div class="panel">
-<h2>Evolution Lab</h2>
-
-<p>
-Mô phỏng chọn lọc và đột biến trên một giá trị mục tiêu.
-Đây là mô phỏng minh họa, không phải AI tự học thực sự.
-</p>
-
-<button class="primary" id="runLab">Chạy 30 thế hệ</button>
-<button id="resetLab">Đặt lại</button>
-
-<p>Thế hệ: <span id="generation">0</span></p>
-<div class="metric" id="fitness">0.00</div>
-<p id="labStatus" class="small">Sẵn sàng.</p>
-</div>
-</section>
-
-<!-- ALGORITHM LAB -->
-<section id="algorithm" class="page hidden">
-<div class="panel">
-<h2>Algorithm Lab V2.1</h2>
-
-<p>
-So sánh hai thuật toán sắp xếp trên cùng một bộ dữ liệu.
-Thời gian được đo trực tiếp trên trình duyệt.
-</p>
-
-<div class="row">
-<input
-  id="arraySize"
-  type="number"
-  min="10"
-  max="500"
-  value="150"
-  placeholder="Số phần tử"
->
-<button class="primary" id="runBenchmark">
-Chạy kiểm thử
-</button>
-</div>
-
-<p class="small">
-Nhập số phần tử từ 10 đến 500.
-Kết quả phụ thuộc vào thiết bị và trình duyệt.
-</p>
-
-<div id="benchmarkResults" class="result">
-Chưa có kết quả kiểm thử.
-</div>
-
-<h2 style="margin-top:22px">Lịch sử kiểm thử</h2>
-<ul id="algorithmHistory"></ul>
-</div>
-</section>
-
-<!-- DATA MANAGEMENT -->
-<section class="panel">
-<h2>Quản lý dữ liệu</h2>
-
-<p class="small">
-Dữ liệu được lưu trên trình duyệt của thiết bị này.
-Hãy xuất JSON để sao lưu trước khi xóa dữ liệu trình duyệt.
-</p>
-
-<div class="actions">
-<button id="exportData">Xuất JSON</button>
-<button id="importButton">Nhập JSON</button>
-<button class="danger" id="clearData">Xóa dữ liệu</button>
-<input
-  id="importFile"
-  type="file"
-  accept=".json,application/json"
-  class="hidden"
->
-</div>
-
-<p id="dataStatus" class="small"></p>
-</section>
-
+<nav id="nav"></nav>
+<div id="app"></div>
+<footer>Local research platform · No paid API · Data stored on device</footer>
 </main>
-
-<footer>
-AI ECOSYSTEM V2.1 · Free Web App
-</footer>
-
 <script>
-"use strict";
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const KEY='ai_ecosystem_v23';
+const defaults={tasks:[],memories:[],runs:[],bench:[],notes:[]};
+let db=load(),page='dashboard',lastRun=null,chartData=[];
 
-/* STORAGE */
-
-const KEY = "ai_ecosystem_v2";
-
-const defaults = {
-  tasks: [],
-  memories: [],
-  generation: 0,
-  fitness: 0,
-  algorithmRuns: []
-};
-
-let state;
-
-try {
-  const saved = JSON.parse(
-    localStorage.getItem(KEY) || "{}"
-  );
-
-  state = {
-    ...defaults,
-    ...saved
-  };
-
-  if (!Array.isArray(state.tasks)) state.tasks = [];
-  if (!Array.isArray(state.memories)) state.memories = [];
-  if (!Array.isArray(state.algorithmRuns)) {
-    state.algorithmRuns = [];
-  }
-} catch {
-  state = {
-    ...defaults
-  };
+function load(){
+ try{return {...defaults,...JSON.parse(localStorage.getItem(KEY)||'{}')}}
+ catch{return {...defaults}}
 }
-
-const $ = id => document.getElementById(id);
-
-function save() {
-  try {
-    localStorage.setItem(KEY, JSON.stringify(state));
-    $("dataStatus").textContent =
-      "Đã lưu dữ liệu trên thiết bị.";
-  } catch {
-    $("dataStatus").textContent =
-      "Không thể lưu dữ liệu. Hãy kiểm tra dung lượng trình duyệt.";
-  }
+function save(){
+ try{localStorage.setItem(KEY,JSON.stringify(db));return true}
+ catch{alert('Không đủ dung lượng lưu trữ. Hãy xuất dữ liệu JSON.');return false}
 }
-
-function element(tag, text) {
-  const el = document.createElement(tag);
-  if (text !== undefined) el.textContent = text;
-  return el;
+function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function add(arr,obj){arr.push({id:id(),...obj});save();render()}
+function remove(arr,i){arr.splice(i,1);save();render()}
+function nav(){
+ const tabs=['dashboard','tasks','memory','evolution','benchmark','validation','experiments'];
+ const names=['Dashboard','Tasks','Memory','Evolution','Benchmark','Validation','Experiments'];
+ $('#nav').innerHTML=tabs.map((t,i)=>`<button class="${page===t?'active':''}" onclick="go('${t}')">${names[i]}</button>`).join('')+
+ `<button onclick="exportJSON()">Export</button><button onclick="$('#file').click()">Import</button><input id="file" type="file" accept=".json" hidden onchange="importJSON(event)">`;
 }
-
-/* NAVIGATION */
-
-document.querySelectorAll(".tab").forEach(button => {
-  button.addEventListener("click", () => {
-    document.querySelectorAll(".tab").forEach(tab => {
-      tab.classList.toggle(
-        "active",
-        tab === button
-      );
-    });
-
-    document.querySelectorAll(".page").forEach(page => {
-      page.classList.toggle(
-        "hidden",
-        page.id !== button.dataset.page
-      );
-    });
-  });
-});
-
-/* TASK MANAGER */
-
-function renderTasks() {
-  const list = $("taskList");
-  list.replaceChildren();
-
-  state.tasks.forEach((task, index) => {
-    const li = element("li");
-
-    const checkbox = element("input");
-    checkbox.type = "checkbox";
-    checkbox.checked = !!task.done;
-
-    checkbox.addEventListener("change", () => {
-      task.done = checkbox.checked;
-      save();
-      renderTasks();
-    });
-
-    const label = element("span", task.text);
-    label.className =
-      "item" + (task.done ? " done" : "");
-
-    const remove = element("button", "Xóa");
-    remove.className = "danger";
-
-    remove.addEventListener("click", () => {
-      state.tasks.splice(index, 1);
-      save();
-      renderTasks();
-    });
-
-    li.append(checkbox, label, remove);
-    list.append(li);
-  });
-
-  const remaining = state.tasks.filter(
-    task => !task.done
-  ).length;
-
-  $("taskCount").textContent =
-    remaining + " tác vụ chưa hoàn thành / " +
-    state.tasks.length + " tổng cộng";
+function go(p){page=p;render()}
+function card(title,content){return `<section class="card"><h2>${title}</h2>${content}</section>`}
+function render(){
+ nav();const a=$('#app');
+ if(page==='dashboard')a.innerHTML=dashboard();
+ if(page==='tasks')a.innerHTML=tasks();
+ if(page==='memory')a.innerHTML=memory();
+ if(page==='evolution')a.innerHTML=evolution();
+ if(page==='benchmark')a.innerHTML=benchmark();
+ if(page==='validation')a.innerHTML=validation();
+ if(page==='experiments')a.innerHTML=experiments();
 }
-
-$("addTask").addEventListener("click", () => {
-  const value = $("taskInput").value.trim();
-  if (!value) return;
-
-  state.tasks.push({
-    text: value,
-    done: false
-  });
-
-  $("taskInput").value = "";
-
-  save();
-  renderTasks();
-});
-
-$("taskInput").addEventListener("keydown", event => {
-  if (event.key === "Enter") {
-    $("addTask").click();
-  }
-});
-
-/* MEMORY MANAGER */
-
-function renderMemories() {
-  const list = $("memoryList");
-  list.replaceChildren();
-
-  state.memories.forEach((memory, index) => {
-    const li = element("li");
-
-    const label = element("span", memory);
-    label.className = "item";
-
-    const remove = element("button", "Xóa");
-    remove.className = "danger";
-
-    remove.addEventListener("click", () => {
-      state.memories.splice(index, 1);
-      save();
-      renderMemories();
-    });
-
-    li.append(label, remove);
-    list.append(li);
-  });
-
-  if (!state.memories.length) {
-    list.append(element("li", "Chưa có ghi chú."));
-  }
+function dashboard(){
+ const r=db.runs.at(-1);
+ return card('Research Dashboard',`<div class="row">
+ <div class="stat"><strong>${db.runs.length}</strong>Evolution runs</div>
+ <div class="stat"><strong>${db.bench.length}</strong>Benchmarks</div>
+ <div class="stat"><strong>${db.tasks.length}</strong>Tasks</div>
+ <div class="stat"><strong>${db.memories.length}</strong>Memories</div></div>`) +
+ card('Latest evolution',r?`Best loss: <b>${r.bestLoss.toExponential(3)}</b><br>Model: y=${r.a.toFixed(4)}x + ${r.b.toFixed(4)}<br>Generations: ${r.generations}`:'Chưa có thí nghiệm')+
+ card('System status',`<p>Storage: localStorage</p><p>Network API: không sử dụng</p><p>Mode: Simulation / Research</p><p>Data: ${navigator.onLine?'Online':'Offline'}</p>`);
 }
-
-$("addMemory").addEventListener("click", () => {
-  const value = $("memoryInput").value.trim();
-  if (!value) return;
-
-  state.memories.unshift(value);
-  $("memoryInput").value = "";
-
-  save();
-  renderMemories();
-});
-
-$("memoryInput").addEventListener("keydown", event => {
-  if (event.key === "Enter") {
-    $("addMemory").click();
-  }
-});
-
-/* EVOLUTION LAB */
-
-function renderLab() {
-  $("generation").textContent = state.generation;
-  $("fitness").textContent =
-    Number(state.fitness).toFixed(2);
+function tasks(){
+ return card('Task Manager',`<input id="taskText" placeholder="Nội dung nhiệm vụ">
+ <button class="primary" onclick="addTask()">Thêm nhiệm vụ</button>
+ <div>${db.tasks.map((t,i)=>`<div class="item"><span>${t.done?'✓':'○'} ${esc(t.text)}</span><div><button onclick="toggleTask(${i})">Đổi trạng thái</button><button class="danger" onclick="remove(db.tasks,${i})">X</button></div></div>`).join('')}</div>`);
 }
-
-$("runLab").addEventListener("click", () => {
-  let score = Number(state.fitness) ||
-    Math.random() * 10;
-
-  for (let i = 0; i < 30; i++) {
-    const candidate =
-      score + (Math.random() - 0.35) * 2;
-
-    if (candidate > score) {
-      score = candidate;
-    }
-
-    state.generation++;
-  }
-
-  state.fitness = Math.min(100, score);
-
-  save();
-  renderLab();
-
-  $("labStatus").textContent =
-    "Đã mô phỏng thêm 30 thế hệ.";
-});
-
-$("resetLab").addEventListener("click", () => {
-  state.generation = 0;
-  state.fitness = 0;
-
-  save();
-  renderLab();
-
-  $("labStatus").textContent =
-    "Đã đặt lại mô phỏng.";
-});
-
-/* ALGORITHM LAB */
-
-/* Insertion Sort implementation */
-
-function insertionSort(values) {
-  const a = values.slice();
-
-  for (let i = 1; i < a.length; i++) {
-    const current = a[i];
-    let j = i - 1;
-
-    while (j >= 0 && a[j] > current) {
-      a[j + 1] = a[j];
-      j--;
-    }
-
-    a[j + 1] = current;
-  }
-
-  return a;
+function addTask(){let v=$('#taskText').value.trim();if(v)add(db.tasks,{text:v,done:false})}
+function toggleTask(i){db.tasks[i].done=!db.tasks[i].done;save();render()}
+function memory(){
+ return card('Memory Database',`<textarea id="memText" placeholder="Ghi nhớ nghiên cứu, ý tưởng, kết quả"></textarea>
+ <button class="primary" onclick="addMemory()">Lưu</button>
+ ${db.memories.map((m,i)=>`<div class="item"><span>${esc(m.text)}</span><button class="danger" onclick="remove(db.memories,${i})">Xóa</button></div>`).join('')}`);
 }
+function addMemory(){let v=$('#memText').value.trim();if(v)add(db.memories,{text:v,date:new Date().toISOString()})}
 
-/* Generate reproducible test data */
-
-function generateTestData(size) {
-  let seed = 20261114;
-
-  return Array.from({length: size}, () => {
-    seed = (
-      seed * 1664525 + 1013904223
-    ) >>> 0;
-
-    return seed % 100000;
-  });
+function evolution(){
+ return card('Evolution Engine – Genetic Algorithm',`
+ <p>Tối ưu mô hình tuyến tính y = ax + b trên bộ dữ liệu tổng hợp công khai.</p>
+ <p>Target: y = 2x + 3. Mục tiêu: giảm Mean Squared Error (MSE).</p>
+ <div class="row"><label>Population<input id="pop" type="number" value="40" min="10" max="200"></label>
+ <label>Generations<input id="gen" type="number" value="100" min="5" max="500"></label>
+ <label>Mutation rate<input id="mut" type="number" value="0.2" min="0" max="1" step="0.05"></label></div>
+ <button class="primary" onclick="runGA()">Run Evolution</button>
+ <button onclick="stopGA()">Stop</button>
+ <p id="gaStatus">Ready</p><canvas id="gaChart"></canvas><pre id="gaResult"></pre>`);
 }
-
-/* Compare two arrays */
-
-function arraysEqual(a, b) {
-  if (a.length !== b.length) return false;
-
-  for (let i = 0; i < a.length; i++) {
-    if (a[i] !== b[i]) return false;
-  }
-
-  return true;
+let stopFlag=false;
+function stopGA(){stopFlag=true}
+function rand(){return Math.random()}
+function loss(a,b){
+ let s=0;
+ for(let x=-10;x<=10;x++)s+=(a*x+b-(2*x+3))**2;
+ return s/21;
 }
-
-/* Display benchmark history */
-
-function renderAlgorithmHistory() {
-  const list = $("algorithmHistory");
-  list.replaceChildren();
-
-  if (!state.algorithmRuns.length) {
-    list.append(
-      element("li", "Chưa có dữ liệu kiểm thử.")
-    );
-    return;
+function runGA(){
+ stopFlag=false;
+ const N=Math.max(10,Math.min(200,+$('#pop').value||40));
+ const G=Math.max(5,Math.min(500,+$('#gen').value||100));
+ const M=Math.max(0,Math.min(1,+$('#mut').value||0.2));
+ let pop=Array.from({length:N},()=>({a:rand()*20-10,b:rand()*20-10}));
+ let history=[],best;
+ const status=$('#gaStatus'),result=$('#gaResult');
+ function score(p){return loss(p.a,p.b)}
+ function tournament(){
+  let b=pop[Math.floor(rand()*N)];
+  for(let k=0;k<3;k++){let q=pop[Math.floor(rand()*N)];if(score(q)<score(b))b=q}
+  return b;
+ }
+ for(let g=0;g<G;g++){
+  if(stopFlag)break;
+  pop.sort((x,y)=>score(x)-score(y));
+  best={...pop[0]};
+  history.push(score(best));
+  let next=pop.slice(0,Math.max(2,Math.floor(N*.2))).map(x=>({...x}));
+  while(next.length<N){
+   let p=tournament(),q=tournament();
+   let child={a:p.a*rand()+q.a*(1-rand()),b:p.b*rand()+q.b*(1-rand())};
+   if(rand()<M)child.a+=(rand()-.5)*2;
+   if(rand()<M)child.b+=(rand()-.5)*2;
+   child.a=Math.max(-20,Math.min(20,child.a));
+   child.b=Math.max(-20,Math.min(20,child.b));
+   next.push(child);
   }
-
-  state.algorithmRuns.forEach(run => {
-    const li = element("li");
-
-    const summary = element(
-      "span",
-      run.size + " phần tử | Insertion Sort: " +
-      Number(run.insertionMs).toFixed(3) +
-      " ms | Native Sort: " +
-      Number(run.nativeMs).toFixed(3) +
-      " ms | " +
-      (run.valid ? "ĐẠT" : "KHÔNG ĐẠT")
-    );
-
-    summary.className = "item";
-    li.append(summary);
-    list.append(li);
-  });
+  pop=next;
+ }
+ pop.sort((x,y)=>score(x)-score(y));best=pop[0];
+ const rec={date:new Date().toISOString(),a:best.a,b:best.b,bestLoss:score(best),generations:history.length,population:N,mutation:M,history};
+ db.runs.push(rec);if(db.runs.length>100)db.runs.shift();save();lastRun=rec;chartData=history;
+ status.textContent=stopFlag?'Stopped':'Completed';
+ result.textContent=`Best a = ${best.a.toFixed(6)}\nBest b = ${best.b.toFixed(6)}\nMSE = ${score(best).toExponential(6)}\nGenerations = ${history.length}\nPopulation = ${N}\nMutation = ${M}`;
+ drawChart($('#gaChart'),history);
 }
-
-/* Run benchmark */
-
-$("runBenchmark").addEventListener("click", () => {
-  const size = Number($("arraySize").value);
-
-  if (
-    !Number.isInteger(size) ||
-    size < 10 ||
-    size > 500
-  ) {
-    $("benchmarkResults").textContent =
-      "Nhập số phần tử hợp lệ từ 10 đến 500.";
-    return;
-  }
-
-  const input = generateTestData(size);
-
-  /* Insertion Sort */
-
-  const startA = performance.now();
-  const resultA = insertionSort(input);
-  const timeA = performance.now() - startA;
-
-  /* Native JavaScript Sort */
-
-  const startB = performance.now();
-
-  const resultB = input.slice().sort(
-    (a, b) => a - b
-  );
-
-  const timeB = performance.now() - startB;
-
-  /* Validate correctness */
-
-  const valid = arraysEqual(resultA, resultB);
-
-  const run = {
-    date: new Date().toISOString(),
-    size: size,
-    insertionMs: timeA,
-    nativeMs: timeB,
-    valid: valid
-  };
-
-  state.algorithmRuns.unshift(run);
-
-  state.algorithmRuns =
-    state.algorithmRuns.slice(0, 10);
-
-  save();
-
-  const output = $("benchmarkResults");
-  output.replaceChildren();
-
-  output.append(
-    element(
-      "p",
-      "Số phần tử: " + size
-    ),
-    element(
-      "p",
-      "Insertion Sort: " +
-      timeA.toFixed(3) + " ms"
-    ),
-    element(
-      "p",
-      "Native Sort: " +
-      timeB.toFixed(3) + " ms"
-    ),
-    element(
-      "p",
-      "Kiểm tra kết quả: " +
-      (valid ? "ĐẠT" : "KHÔNG ĐẠT")
-    )
-  );
-
-  renderAlgorithmHistory();
-});
-
-/* EXPORT JSON */
-
-$("exportData").addEventListener("click", () => {
-  const blob = new Blob(
-    [JSON.stringify(state, null, 2)],
-    {type:"application/json"}
-  );
-
-  const url = URL.createObjectURL(blob);
-  const link = element("a");
-
-  link.href = url;
-  link.download = "ai-ecosystem-v2.1-backup.json";
-
-  document.body.append(link);
-  link.click();
-  link.remove();
-
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-});
-
-/* IMPORT JSON */
-
-$("importButton").addEventListener("click", () => {
-  $("importFile").click();
-});
-
-$("importFile").addEventListener(
-  "change",
-  async event => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    try {
-      const data = JSON.parse(await file.text());
-
-      if (
-        !data ||
-        !Array.isArray(data.tasks) ||
-        !Array.isArray(data.memories)
-      ) {
-        throw new Error("Invalid data");
-      }
-
-      state = {
-        ...defaults,
-        ...data
-      };
-
-      if (!Array.isArray(state.algorithmRuns)) {
-        state.algorithmRuns = [];
-      }
-
-      save();
-      renderTasks();
-      renderMemories();
-      renderLab();
-      renderAlgorithmHistory();
-
-      $("dataStatus").textContent =
-        "Nhập dữ liệu thành công.";
-    } catch {
-      $("dataStatus").textContent =
-        "File JSON không hợp lệ.";
-    }
-
-    event.target.value = "";
-  }
-);
-
-/* CLEAR DATA */
-
-$("clearData").addEventListener("click", () => {
-  const confirmed = confirm(
-    "Bạn có chắc muốn xóa toàn bộ dữ liệu?"
-  );
-
-  if (!confirmed) return;
-
-  state = {
-    ...defaults,
-    tasks: [],
-    memories: [],
-    algorithmRuns: []
-  };
-
-  save();
-  renderTasks();
-  renderMemories();
-  renderLab();
-  renderAlgorithmHistory();
-
-  $("benchmarkResults").textContent =
-    "Chưa có kết quả kiểm thử.";
-});
-
-/* INITIALIZE */
-
-renderTasks();
-renderMemories();
-renderLab();
-renderAlgorithmHistory();
-
+function drawChart(c,data){
+ if(!c)return;
+ const ctx=c.getContext('2d'),w=c.width=c.clientWidth*devicePixelRatio,h=c.height=c.clientHeight*devicePixelRatio;
+ ctx.clearRect(0,0,w,h);if(!data.length)return;
+ const max=Math.max(...data),min=Math.min(...data),pad=25;
+ ctx.strokeStyle='#55baff';ctx.lineWidth=2;ctx.beginPath();
+ data.forEach((v,i)=>{
+ const x=pad+(w-2*pad)*i/Math.max(1,data.length-1);
+ const y=h-pad-(v-min)/(max-min||1)*(h-2*pad);
+ i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+ });ctx.stroke();
+}
+function benchmark(){
+ return card('Benchmark Center',`
+ <p>Đo tốc độ sắp xếp dữ liệu và xác minh tính đúng đắn.</p>
+ <label>Data size<input id="benchN" type="number" value="10000" min="100" max="500000"></label>
+ <button class="primary" onclick="runBench()">Run benchmark</button>
+ <pre id="benchResult"></pre>
+ <div>${db.bench.slice(-10).reverse().map(x=>`<div class="item">${x.n} items | JS sort ${x.sort.toFixed(2)} ms | insertion ${x.insert.toFixed(2)} ms</div>`).join('')}</div>`);
+}
+function runBench(){
+ const n=Math.max(100,Math.min(500000,+$('#benchN').value||10000));
+ const data=Array.from({length:n},()=>Math.random()*100000);
+ const copy=data.slice(),a=data.slice();
+ let t=performance.now();copy.sort((x,y)=>x-y);let ts=performance.now()-t;
+ let ti=null,correct=true;
+ if(n<=20000){
+ t=performance.now();
+ for(let i=1;i<a.length;i++){let k=a[i],j=i-1;while(j>=0&&a[j]>k){a[j+1]=a[j];j--}a[j+1]=k}
+ ti=performance.now()-t;
+ correct=a.every((v,i)=>v===copy[i]);
+ }
+ const r={date:new Date().toISOString(),n,sort:ts,insert:ti,correct};
+ db.bench.push(r);if(db.bench.length>100)db.bench.shift();save();
+ $('#benchResult').textContent=`Native sort: ${ts.toFixed(3)} ms\nInsertion sort: ${ti===null?'Skipped (large dataset)':ti.toFixed(3)+' ms'}\nCorrectness: ${ti===null?'Not tested':correct?'PASS':'FAIL'}`;
+ render();
+}
+function validation(){
+ const r=db.runs.at(-1);
+ return card('Validation Engine',`
+ <p>Kiểm tra kết quả mô hình bằng tiêu chí độc lập.</p>
+ <button class="primary" onclick="validateRun()">Validate latest run</button>
+ <pre id="validationResult"></pre>`) +
+ card('Validation principles',`<ul><li>Kiểm tra MSE không âm.</li><li>Đối chiếu nghiệm mục tiêu a=2, b=3.</li><li>Không xem một lần chạy là bằng chứng AI tổng quát.</li><li>Benchmark cần kiểm tra correctness trước speed.</li></ul>`);
+}
+function validateRun(){
+ const r=db.runs.at(-1),o=$('#validationResult');
+ if(!r){o.textContent='Chưa có evolution run';return}
+ const mse=loss(r.a,r.b),target=Math.hypot(r.a-2,r.b-3);
+ const ok=Number.isFinite(mse)&&mse>=0&&Number.isFinite(r.a)&&Number.isFinite(r.b);
+ o.textContent=`Finite parameters: ${ok?'PASS':'FAIL'}\nMSE non-negative: ${mse>=0?'PASS':'FAIL'}\nDistance to target: ${target.toFixed(6)}\nConverged (<0.1): ${target<.1?'YES':'NO'}\nNote: target is synthetic and known in advance.`;
+}
+function experiments(){
+ return card('Experiment Database',`
+ <p>${db.runs.length} evolution records · ${db.bench.length} benchmark records</p>
+ <button class="danger" onclick="clearRuns()">Clear experiments</button>
+ <h3>Evolution history</h3>
+ ${db.runs.slice(-20).reverse().map((r,i)=>`<div class="item"><span>${esc(r.date)}<br>Loss ${r.bestLoss.toExponential(3)} | a=${r.a.toFixed(3)} b=${r.b.toFixed(3)}</span></div>`).join('')}
+ <h3>Benchmark history</h3>
+ ${db.bench.slice(-20).reverse().map(r=>`<div class="item">${r.n} | ${r.sort.toFixed(2)} ms | ${r.correct?'PASS':'N/A'}</div>`).join('')}`);
+}
+function clearRuns(){if(confirm('Xóa toàn bộ lịch sử thí nghiệm?')){db.runs=[];db.bench=[];save();render()}}
+function exportJSON(){
+ const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});
+ const url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download='ai-ecosystem-v23.json';a.click();URL.revokeObjectURL(url);
+}
+function importJSON(e){
+ const f=e.target.files[0];if(!f)return;
+ const rd=new FileReader();
+ rd.onload=()=>{try{
+ const x=JSON.parse(rd.result);
+ if(!x||!Array.isArray(x.tasks)||!Array.isArray(x.runs))throw Error();
+ db={...defaults,...x};save();render();alert('Import thành công');
+ }catch{alert('JSON không hợp lệ hoặc không đúng định dạng')}};
+ rd.readAsText(f);
+}
+render();
 </script>
 </body>
 </html>
