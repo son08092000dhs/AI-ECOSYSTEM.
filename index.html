@@ -1,165 +1,440 @@
-doctype html
-html lang="vi"
-head
-meta charset="utf-8"
-meta name="viewport" content="width=device-width,initial-scale=1"
-meta name="theme-color" content="#101827"
-title
-AI ECOSYSTEM V2.0
-/title
-style
-*{box-sizing:border-box}body{margin:0;background:#0b1220;color:#edf3fb;font:15px system-ui}header{padding:22px 18px;background:#14243b}h1{margin:4px 0}p{color:#9db0c7;line-height:1.5}.wrap{max-width:850px;margin:auto;padding:14px}.tabs{display:flex;gap:7px;margin:12px 0}.tab,button{border:1px solid #30435d;border-radius:10px;padding:11px;background:#1b2a40;color:#edf3fb;font:inherit}.tab.active,button.primary{background:#276db0}.panel{background:#121d2e;border:1px solid #2a3b52;border-radius:14px;padding:15px;margin:12px 0}.field{width:100%;padding:12px;border:1px solid #30435d;border-radius:9px;background:#0d1726;color:white;font:inherit;margin:5px 0}.row{display:flex;gap:8px}.row .field{flex:1;min-width:0}.item{background:#1a2a40;border-radius:9px;padding:11px;margin:8px 0;display:flex;gap:9px;align-items:center}.item span{flex:1;overflow-wrap:anywhere}.muted{color:#9db0c7;font-size:13px}.metric{display:inline-block;background:#1a2a40;border-radius:9px;padding:10px;margin:4px}.metric b{display:block;font-size:20px}.empty{padding:15px;text-align:center;color:#9db0c7}textarea{resize:vertical}button{cursor:pointer}footer{text-align:center;color:#9db0c7;font-size:12px;padding:20px}
-/style
-/head
-body
-header
-small
-PROJECT / V2.0
-/small
-h1
-AI ECOSYSTEM
-/h1
-p
-Core Dashboard · Task Manager · Memory · Evolution Lab
-/p
-/header
-main class="wrap"
-p
-Chạy trực tiếp trên trình duyệt · Không cần API · Dữ liệu lưu trên thiết bị
-/p
-nav class="tabs"
-button class="tab active" data-tab="tasks"
-Tasks
-/button
-button class="tab" data-tab="memory"
-Memory
-/button
-button class="tab" data-tab="evolution"
-Evolution Lab
-/button
-/nav
-section id="tasks" class="panel"
-h2
-Task Manager
-/h2
-form id="tf" class="row"
-input id="task" class="field" maxlength="180" placeholder="Nhập tác vụ..." required
-button class="primary"
-Thêm
-/button
-/form
-div
-div class="metric"
-b id="total"
-0
-/b
-small
-Tổng
-/small
-/div
-div class="metric"
-b id="done"
-0
-/b
-small
-Hoàn thành
-/small
-/div
-div class="metric"
-b id="open"
-0
-/b
-small
-Đang mở
-/small
-/div
-/div
-div id="tasksList"
-/div
-/section
-section id="memory" class="panel" hidden
-h2
-Memory Manager
-/h2
-p
-Bộ nhớ ghi chú cục bộ; chưa phải trí nhớ học máy, không đồng bộ thiết bị.
-/p
-form id="mf"
-input id="mt" class="field" placeholder="Tiêu đề" maxlength="100" required
-textarea id="mb" class="field" rows="3" placeholder="Nội dung ghi nhớ" maxlength="2000" required
-/button
-/form
-div id="memoriesList"
-/div
-/section
-section id="evolution" class="panel" hidden
-h2
-Evolution Lab
-/h2
-p
-Mô phỏng tiến hóa số: chọn cá thể gần mục tiêu và đột biến ngẫu nhiên. Đây chỉ là demo, không chứng minh AI tự học hoặc phát minh.
-/p
-div class="row"
-input id="target" class="field" type="number" value="42"
-button id="run" class="primary"
-Chạy 30 thế hệ
-/button
-/div
-div class="metric"
-b id="gen"
-0
-/b
-small
-Thế hệ
-/small
-/div
-div class="metric"
-b id="best"
-—
-/b
-small
-Giá trị tốt nhất
-/small
-/div
-div class="metric"
-b id="fit"
-—
-/b
-small
-Fitness
-/small
-/div
-p id="log"
-Chưa chạy mô phỏng.
-/p
-button id="reset"
-Đặt lại
-/button
-/section
-section class="panel"
-h3
-Dữ liệu
-/h3
-p
-Xuất bản sao lưu JSON hoặc nhập lại trên thiết bị. Xóa dữ liệu trình duyệt có thể làm mất dữ liệu chưa sao lưu.
-/p
-button id="export"
-Xuất JSON
-/button
-button id="import"
-Nhập JSON
-/button
-input id="file" type="file" accept=".json,application/json" hidden
-p id="msg" class="muted"
-/p
-/section
-footer
-AI ECOSYSTEM V2.0 · Prototype miễn phí
-/footer
-/main
-script
-(()=
-const K='ai_ecosystem_v2';let d={tasks:[],memories:[]};try{let x=JSON.parse(localStorage.getItem(K));if(x&&Array.isArray(x.tasks)&&Array.isArray(x.memories))d=x}catch(e){}const $=id=document.getElementById(id),save=()=>{try{localStorage.setItem(K,JSON.stringify(d))}catch(e){$('msg').textContent='Không thể lưu dữ liệu trong trình browser.'}},esc=s=String(s).replace(/[&"']/g,c={'&':'&','"':'&quot;',"':'&#39;'}[c]));function rt(){$('total').textContent=d.tasks.length;$('done').textContent=d.tasks.filter(x=x.done).length;$('open').textContent=d.tasks.filter(x=!x.done).length;$('tasksList').innerHTML=d.tasks.length?d.tasks.map((x,i)=' class="item"'+'"'+'"'>(x.done?'checked':'')+'>'+(x.done?'text-decoration:line-through;opacity:.6':'')+'"'+esc(x.text)+'/''+'×'+'/'+/div').join(''):'Chưa có tác vụ./div'}function rm(){$('memoriesList').innerHTML=d.memories.length?d.memories.map((x,i)=' class="item"'+'>'+'+'+esc(x.title)+'/br'+esc(x.body)+'/''+'×'+'/'+/div').join(''):'Chưa có ghi nhớ./div'}$('tf').onsubmit=e=e.preventDefault();d.tasks.unshift({text:$('task').value.trim(),done:false});$('task').value='';save();rt()};$('tasksList').onclick=e={if(e.target.dataset.del!==undefined){d.tasks.splice(+e.target.dataset.del,1);save();rt()}};$('tasksList').onchange=e={if(e.target.dataset.check!==undefined){d.tasks[+e.target.dataset.check].done=e.target.checked;save();rt()}};$('mf').onsubmit=e=e.preventDefault();d.memories.unshift({title:$('mt').value.trim(),body:$('mb').value.trim()});$('mf').reset();save();rm()};$('memoriesList').onclick=e={if(e.target.dataset.md!==undefined){d.memories.splice(+e.target.dataset.md,1);save();rm()}};document.querySelectorAll('.tab').forEach(b=b.onclick=()=>{document.querySelectorAll('.tab').forEach(t=t.classList.toggle('active',t===b));['tasks','memory','evolution'].forEach(id=$(id).hidden=id!==b.dataset.tab)}});let generation=0;$('run').onclick=()=let t=Number($('target').value),p=Array.from({length:30},()=Math.random()*200-100),v;for(let g=0;g30;g++){p.sort((a,b)=Math.abs(a-t)-Math.abs(b-t));v=p[0];let parents=p.slice(0,6);p=parents.slice();while(p.length30){let a=parents[Math.floor(Math.random()*parents.length)];p.push(a+(Math.random()-.5)*Math.max(1,30/(g+1)))}}let f=1/(1+Math.abs(v-t));generation+=30;$('gen').textContent=generation;$('best').textContent=v.toFixed(3);$('fit').textContent=f.toFixed(4);$('log').textContent='Sai số so với mục tiêu: '+Math.abs(v-t).toFixed(4)+'. Kết quả ngẫu nhiên.'};$('reset').onclick=()=generation=0;$('gen').textContent='0';$('best').textContent='—';$('fit').textContent='—';$('log').textContent='Đã đặt lại.'};$('export').onclick=()=let a=document.createElement('a'),u=URL.createObjectURL(new Blob([JSON.stringify({version:'2.0',...d},null,2)],{type:'application/json'}));a.href=u;a.download='ai-ecosystem-backup.json';a.click();URL.revokeObjectURL(u)};$('import').onclick=()=$('file').click();$('file').onchange=async e=try{let x=JSON.parse(await e.target.files[0].text());if(!Array.isArray(x.tasks)||!Array.isArray(x.memories))throw 0;d={tasks:x.tasks,memories:x.memories};save();rt();rm();$('msg').textContent='Đã nhập dữ liệu.'}catch(_){$('msg').textContent='Tệp JSON không hợp lệ.'}};rt();rm()})();
-/script
-/body
-/html
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>AI ECOSYSTEM V2.0</title>
+<style>
+:root {
+  color-scheme: dark;
+  --bg:#0b1220;
+  --panel:#151f31;
+  --line:#29364b;
+  --text:#e8eef8;
+  --muted:#9eabc0;
+  --accent:#3988dc;
+  --green:#48d6a0;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font:15px system-ui,sans-serif;
+}
+header {
+  padding:22px 16px;
+  background:#111c2d;
+  border-bottom:1px solid var(--line);
+}
+.wrap,main { max-width:900px; margin:auto; }
+h1 { font-size:24px; margin:0 0 6px; }
+h2 { font-size:19px; margin:0 0 14px; }
+p { color:var(--muted); line-height:1.5; }
+nav,.row,.actions {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+button {
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:#1b2940;
+  color:var(--text);
+  padding:11px 14px;
+  font:inherit;
+  cursor:pointer;
+}
+button.active,button.primary {
+  background:#24558d;
+  border-color:#3988dc;
+}
+button.danger {
+  background:#492432;
+  border-color:#71384b;
+}
+main { padding:18px 14px; }
+.panel {
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:17px;
+  margin-bottom:15px;
+}
+input {
+  min-width:0;
+  flex:1;
+  background:#0e1828;
+  color:white;
+  border:1px solid var(--line);
+  border-radius:9px;
+  padding:12px;
+  font:inherit;
+}
+ul { list-style:none; padding:0; }
+li {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:11px 0;
+  border-bottom:1px solid var(--line);
+}
+.item { flex:1; overflow-wrap:anywhere; }
+.done { text-decoration:line-through; color:var(--muted); }
+.small { font-size:13px; color:var(--muted); }
+.metric { font-size:30px; color:var(--green); font-weight:bold; }
+.hidden { display:none!important; }
+footer {
+  text-align:center;
+  padding:20px;
+  color:var(--muted);
+  font-size:12px;
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="wrap">
+<h1>AI ECOSYSTEM V2.0</h1>
+<p>Hệ thống quản lý tác vụ, bộ nhớ và mô phỏng tiến hóa thuật toán.</p>
+<nav>
+<button class="tab active" data-page="tasks">Tasks</button>
+<button class="tab" data-page="memory">Memory</button>
+<button class="tab" data-page="lab">Evolution Lab</button>
+</nav>
+</div>
+</header>
+
+<main>
+
+<section id="tasks" class="page">
+<div class="panel">
+<h2>Task Manager</h2>
+<div class="row">
+<input id="taskInput" placeholder="Nhập công việc mới...">
+<button class="primary" id="addTask">Thêm</button>
+</div>
+<ul id="taskList"></ul>
+<p id="taskCount" class="small"></p>
+</div>
+</section>
+
+<section id="memory" class="page hidden">
+<div class="panel">
+<h2>Memory Manager</h2>
+<div class="row">
+<input id="memoryInput" placeholder="Nhập ghi chú...">
+<button class="primary" id="addMemory">Lưu</button>
+</div>
+<ul id="memoryList"></ul>
+</div>
+</section>
+
+<section id="lab" class="page hidden">
+<div class="panel">
+<h2>Evolution Lab</h2>
+<p>Mô phỏng tối ưu hóa một giá trị mục tiêu bằng đột biến ngẫu nhiên. Đây là mô phỏng minh họa, chưa phải AI tự học thực sự.</p>
+<button class="primary" id="runLab">Chạy 30 thế hệ</button>
+<button id="resetLab">Đặt lại</button>
+<p>Thế hệ: <span id="generation">0</span></p>
+<div class="metric" id="fitness">0.00</div>
+<p id="labStatus" class="small">Sẵn sàng.</p>
+</div>
+</section>
+
+<section class="panel">
+<h2>Quản lý dữ liệu</h2>
+<p class="small">Dữ liệu được lưu trên trình duyệt của thiết bị này.</p>
+<div class="actions">
+<button id="exportData">Xuất JSON</button>
+<button id="importButton">Nhập JSON</button>
+<button class="danger" id="clearData">Xóa dữ liệu</button>
+<input id="importFile" type="file" accept=".json,application/json" class="hidden">
+</div>
+<p id="dataStatus" class="small"></p>
+</section>
+
+</main>
+
+<footer>AI ECOSYSTEM V2.0 · Free Web App</footer>
+
+<script>
+"use strict";
+
+const KEY = "ai_ecosystem_v2";
+const defaults = {
+  tasks: [],
+  memories: [],
+  generation: 0,
+  fitness: 0
+};
+
+let state;
+
+try {
+  state = Object.assign(
+    {},
+    defaults,
+    JSON.parse(localStorage.getItem(KEY) || "{}")
+  );
+} catch {
+  state = {...defaults};
+}
+
+const $ = id => document.getElementById(id);
+
+function save() {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(state));
+    $("dataStatus").textContent = "Đã lưu dữ liệu trên thiết bị.";
+  } catch {
+    $("dataStatus").textContent = "Không thể lưu dữ liệu.";
+  }
+}
+
+function element(tag, text) {
+  const el = document.createElement(tag);
+  if (text !== undefined) el.textContent = text;
+  return el;
+}
+
+/* Navigation */
+
+document.querySelectorAll(".tab").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach(tab => {
+      tab.classList.toggle("active", tab === button);
+    });
+
+    document.querySelectorAll(".page").forEach(page => {
+      page.classList.toggle(
+        "hidden",
+        page.id !== button.dataset.page
+      );
+    });
+  });
+});
+
+/* Task Manager */
+
+function renderTasks() {
+  const list = $("taskList");
+  list.replaceChildren();
+
+  state.tasks.forEach((task, index) => {
+    const li = element("li");
+    const checkbox = element("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = !!task.done;
+
+    checkbox.addEventListener("change", () => {
+      task.done = checkbox.checked;
+      save();
+      renderTasks();
+    });
+
+    const label = element("span", task.text);
+    label.className = "item" + (task.done ? " done" : "");
+
+    const remove = element("button", "Xóa");
+    remove.className = "danger";
+
+    remove.addEventListener("click", () => {
+      state.tasks.splice(index, 1);
+      save();
+      renderTasks();
+    });
+
+    li.append(checkbox, label, remove);
+    list.append(li);
+  });
+
+  const remaining = state.tasks.filter(task => !task.done).length;
+
+  $("taskCount").textContent =
+    remaining + " tác vụ chưa hoàn thành / " +
+    state.tasks.length + " tổng cộng";
+}
+
+$("addTask").addEventListener("click", () => {
+  const value = $("taskInput").value.trim();
+  if (!value) return;
+
+  state.tasks.push({text:value, done:false});
+  $("taskInput").value = "";
+
+  save();
+  renderTasks();
+});
+
+$("taskInput").addEventListener("keydown", event => {
+  if (event.key === "Enter") $("addTask").click();
+});
+
+/* Memory Manager */
+
+function renderMemories() {
+  const list = $("memoryList");
+  list.replaceChildren();
+
+  state.memories.forEach((memory, index) => {
+    const li = element("li");
+    const label = element("span", memory);
+    label.className = "item";
+
+    const remove = element("button", "Xóa");
+    remove.className = "danger";
+
+    remove.addEventListener("click", () => {
+      state.memories.splice(index, 1);
+      save();
+      renderMemories();
+    });
+
+    li.append(label, remove);
+    list.append(li);
+  });
+
+  if (!state.memories.length) {
+    list.append(element("li", "Chưa có ghi chú."));
+  }
+}
+
+$("addMemory").addEventListener("click", () => {
+  const value = $("memoryInput").value.trim();
+  if (!value) return;
+
+  state.memories.unshift(value);
+  $("memoryInput").value = "";
+
+  save();
+  renderMemories();
+});
+
+$("memoryInput").addEventListener("keydown", event => {
+  if (event.key === "Enter") $("addMemory").click();
+});
+
+/* Evolution Lab */
+
+function renderLab() {
+  $("generation").textContent = state.generation;
+  $("fitness").textContent = Number(state.fitness).toFixed(2);
+}
+
+$("runLab").addEventListener("click", () => {
+  let score = Number(state.fitness) || Math.random() * 10;
+
+  for (let i = 0; i < 30; i++) {
+    const candidate = score + (Math.random() - 0.35) * 2;
+
+    if (candidate > score) {
+      score = candidate;
+    }
+
+    state.generation++;
+  }
+
+  state.fitness = Math.min(100, score);
+
+  save();
+  renderLab();
+
+  $("labStatus").textContent =
+    "Đã mô phỏng thêm 30 thế hệ.";
+});
+
+$("resetLab").addEventListener("click", () => {
+  state.generation = 0;
+  state.fitness = 0;
+
+  save();
+  renderLab();
+
+  $("labStatus").textContent = "Đã đặt lại mô phỏng.";
+});
+
+/* Export JSON */
+
+$("exportData").addEventListener("click", () => {
+  const blob = new Blob(
+    [JSON.stringify(state, null, 2)],
+    {type:"application/json"}
+  );
+
+  const url = URL.createObjectURL(blob);
+  const link = element("a");
+
+  link.href = url;
+  link.download = "ai-ecosystem-backup.json";
+  link.click();
+
+  URL.revokeObjectURL(url);
+});
+
+/* Import JSON */
+
+$("importButton").addEventListener("click", () => {
+  $("importFile").click();
+});
+
+$("importFile").addEventListener("change", async event => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  try {
+    const data = JSON.parse(await file.text());
+
+    if (
+      !data ||
+      !Array.isArray(data.tasks) ||
+      !Array.isArray(data.memories)
+    ) {
+      throw new Error("Invalid data");
+    }
+
+    state = {...defaults, ...data};
+
+    save();
+    renderTasks();
+    renderMemories();
+    renderLab();
+
+    $("dataStatus").textContent = "Nhập dữ liệu thành công.";
+  } catch {
+    $("dataStatus").textContent = "File JSON không hợp lệ.";
+  }
+
+  event.target.value = "";
+});
+
+/* Clear data */
+
+$("clearData").addEventListener("click", () => {
+  const confirmed = confirm(
+    "Bạn có chắc muốn xóa toàn bộ dữ liệu?"
+  );
+
+  if (!confirmed) return;
+
+  state = {...defaults};
+
+  save();
+  renderTasks();
+  renderMemories();
+  renderLab();
+});
+
+/* Initialize */
+
+renderTasks();
+renderMemories();
+renderLab();
+
+</script>
+</body>
+</html>
