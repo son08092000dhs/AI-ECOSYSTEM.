@@ -1,0 +1,165 @@
+doctype html
+html lang="vi"
+head
+meta charset="utf-8"
+meta name="viewport" content="width=device-width,initial-scale=1"
+meta name="theme-color" content="#101827"
+title
+AI ECOSYSTEM V2.0
+/title
+style
+*{box-sizing:border-box}body{margin:0;background:#0b1220;color:#edf3fb;font:15px system-ui}header{padding:22px 18px;background:#14243b}h1{margin:4px 0}p{color:#9db0c7;line-height:1.5}.wrap{max-width:850px;margin:auto;padding:14px}.tabs{display:flex;gap:7px;margin:12px 0}.tab,button{border:1px solid #30435d;border-radius:10px;padding:11px;background:#1b2a40;color:#edf3fb;font:inherit}.tab.active,button.primary{background:#276db0}.panel{background:#121d2e;border:1px solid #2a3b52;border-radius:14px;padding:15px;margin:12px 0}.field{width:100%;padding:12px;border:1px solid #30435d;border-radius:9px;background:#0d1726;color:white;font:inherit;margin:5px 0}.row{display:flex;gap:8px}.row .field{flex:1;min-width:0}.item{background:#1a2a40;border-radius:9px;padding:11px;margin:8px 0;display:flex;gap:9px;align-items:center}.item span{flex:1;overflow-wrap:anywhere}.muted{color:#9db0c7;font-size:13px}.metric{display:inline-block;background:#1a2a40;border-radius:9px;padding:10px;margin:4px}.metric b{display:block;font-size:20px}.empty{padding:15px;text-align:center;color:#9db0c7}textarea{resize:vertical}button{cursor:pointer}footer{text-align:center;color:#9db0c7;font-size:12px;padding:20px}
+/style
+/head
+body
+header
+small
+PROJECT / V2.0
+/small
+h1
+AI ECOSYSTEM
+/h1
+p
+Core Dashboard · Task Manager · Memory · Evolution Lab
+/p
+/header
+main class="wrap"
+p
+Chạy trực tiếp trên trình duyệt · Không cần API · Dữ liệu lưu trên thiết bị
+/p
+nav class="tabs"
+button class="tab active" data-tab="tasks"
+Tasks
+/button
+button class="tab" data-tab="memory"
+Memory
+/button
+button class="tab" data-tab="evolution"
+Evolution Lab
+/button
+/nav
+section id="tasks" class="panel"
+h2
+Task Manager
+/h2
+form id="tf" class="row"
+input id="task" class="field" maxlength="180" placeholder="Nhập tác vụ..." required
+button class="primary"
+Thêm
+/button
+/form
+div
+div class="metric"
+b id="total"
+0
+/b
+small
+Tổng
+/small
+/div
+div class="metric"
+b id="done"
+0
+/b
+small
+Hoàn thành
+/small
+/div
+div class="metric"
+b id="open"
+0
+/b
+small
+Đang mở
+/small
+/div
+/div
+div id="tasksList"
+/div
+/section
+section id="memory" class="panel" hidden
+h2
+Memory Manager
+/h2
+p
+Bộ nhớ ghi chú cục bộ; chưa phải trí nhớ học máy, không đồng bộ thiết bị.
+/p
+form id="mf"
+input id="mt" class="field" placeholder="Tiêu đề" maxlength="100" required
+textarea id="mb" class="field" rows="3" placeholder="Nội dung ghi nhớ" maxlength="2000" required
+/button
+/form
+div id="memoriesList"
+/div
+/section
+section id="evolution" class="panel" hidden
+h2
+Evolution Lab
+/h2
+p
+Mô phỏng tiến hóa số: chọn cá thể gần mục tiêu và đột biến ngẫu nhiên. Đây chỉ là demo, không chứng minh AI tự học hoặc phát minh.
+/p
+div class="row"
+input id="target" class="field" type="number" value="42"
+button id="run" class="primary"
+Chạy 30 thế hệ
+/button
+/div
+div class="metric"
+b id="gen"
+0
+/b
+small
+Thế hệ
+/small
+/div
+div class="metric"
+b id="best"
+—
+/b
+small
+Giá trị tốt nhất
+/small
+/div
+div class="metric"
+b id="fit"
+—
+/b
+small
+Fitness
+/small
+/div
+p id="log"
+Chưa chạy mô phỏng.
+/p
+button id="reset"
+Đặt lại
+/button
+/section
+section class="panel"
+h3
+Dữ liệu
+/h3
+p
+Xuất bản sao lưu JSON hoặc nhập lại trên thiết bị. Xóa dữ liệu trình duyệt có thể làm mất dữ liệu chưa sao lưu.
+/p
+button id="export"
+Xuất JSON
+/button
+button id="import"
+Nhập JSON
+/button
+input id="file" type="file" accept=".json,application/json" hidden
+p id="msg" class="muted"
+/p
+/section
+footer
+AI ECOSYSTEM V2.0 · Prototype miễn phí
+/footer
+/main
+script
+(()=
+const K='ai_ecosystem_v2';let d={tasks:[],memories:[]};try{let x=JSON.parse(localStorage.getItem(K));if(x&&Array.isArray(x.tasks)&&Array.isArray(x.memories))d=x}catch(e){}const $=id=document.getElementById(id),save=()=>{try{localStorage.setItem(K,JSON.stringify(d))}catch(e){$('msg').textContent='Không thể lưu dữ liệu trong trình browser.'}},esc=s=String(s).replace(/[&"']/g,c={'&':'&','"':'&quot;',"':'&#39;'}[c]));function rt(){$('total').textContent=d.tasks.length;$('done').textContent=d.tasks.filter(x=x.done).length;$('open').textContent=d.tasks.filter(x=!x.done).length;$('tasksList').innerHTML=d.tasks.length?d.tasks.map((x,i)=' class="item"'+'"'+'"'>(x.done?'checked':'')+'>'+(x.done?'text-decoration:line-through;opacity:.6':'')+'"'+esc(x.text)+'/''+'×'+'/'+/div').join(''):'Chưa có tác vụ./div'}function rm(){$('memoriesList').innerHTML=d.memories.length?d.memories.map((x,i)=' class="item"'+'>'+'+'+esc(x.title)+'/br'+esc(x.body)+'/''+'×'+'/'+/div').join(''):'Chưa có ghi nhớ./div'}$('tf').onsubmit=e=e.preventDefault();d.tasks.unshift({text:$('task').value.trim(),done:false});$('task').value='';save();rt()};$('tasksList').onclick=e={if(e.target.dataset.del!==undefined){d.tasks.splice(+e.target.dataset.del,1);save();rt()}};$('tasksList').onchange=e={if(e.target.dataset.check!==undefined){d.tasks[+e.target.dataset.check].done=e.target.checked;save();rt()}};$('mf').onsubmit=e=e.preventDefault();d.memories.unshift({title:$('mt').value.trim(),body:$('mb').value.trim()});$('mf').reset();save();rm()};$('memoriesList').onclick=e={if(e.target.dataset.md!==undefined){d.memories.splice(+e.target.dataset.md,1);save();rm()}};document.querySelectorAll('.tab').forEach(b=b.onclick=()=>{document.querySelectorAll('.tab').forEach(t=t.classList.toggle('active',t===b));['tasks','memory','evolution'].forEach(id=$(id).hidden=id!==b.dataset.tab)}});let generation=0;$('run').onclick=()=let t=Number($('target').value),p=Array.from({length:30},()=Math.random()*200-100),v;for(let g=0;g30;g++){p.sort((a,b)=Math.abs(a-t)-Math.abs(b-t));v=p[0];let parents=p.slice(0,6);p=parents.slice();while(p.length30){let a=parents[Math.floor(Math.random()*parents.length)];p.push(a+(Math.random()-.5)*Math.max(1,30/(g+1)))}}let f=1/(1+Math.abs(v-t));generation+=30;$('gen').textContent=generation;$('best').textContent=v.toFixed(3);$('fit').textContent=f.toFixed(4);$('log').textContent='Sai số so với mục tiêu: '+Math.abs(v-t).toFixed(4)+'. Kết quả ngẫu nhiên.'};$('reset').onclick=()=generation=0;$('gen').textContent='0';$('best').textContent='—';$('fit').textContent='—';$('log').textContent='Đã đặt lại.'};$('export').onclick=()=let a=document.createElement('a'),u=URL.createObjectURL(new Blob([JSON.stringify({version:'2.0',...d},null,2)],{type:'application/json'}));a.href=u;a.download='ai-ecosystem-backup.json';a.click();URL.revokeObjectURL(u)};$('import').onclick=()=$('file').click();$('file').onchange=async e=try{let x=JSON.parse(await e.target.files[0].text());if(!Array.isArray(x.tasks)||!Array.isArray(x.memories))throw 0;d={tasks:x.tasks,memories:x.memories};save();rt();rm();$('msg').textContent='Đã nhập dữ liệu.'}catch(_){$('msg').textContent='Tệp JSON không hợp lệ.'}};rt();rm()})();
+/script
+/body
+/html
